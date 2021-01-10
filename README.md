@@ -1,7 +1,9 @@
 # AWS Identity and Access Management (IAM) Terraform
 
-iam-user
-iam-multi-users
+1. IAM User
+2. IAM Multi-users
+3. IAM Groups
+4. IAM Roles and Policies
 
 
 ## Prerequisites:
