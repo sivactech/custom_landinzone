@@ -19,7 +19,24 @@ $ gpg --gen-key
 the format Terraform wants (single line, no header/footer, remove second base64-encoded string
 
 $ gpg --export "Key Name" |base64
-More infor: https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-gpg-key
+
+```hcl
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2
+
+mQENBFkWilQBCADhq+ONGUppBNiggelOnW852qpnRdOTi1ZByx1ZWQPm1kSAtXDv
+we/N6RbVaiA08wkx+oQbGNNviIoYRUEiM74EhEwJ71ibvOU58+19mWdQT0fP6vha
+hazkXtb1hW7j9/mOfmHKnwsotI++lxLAOeEz/HEmnzbtJ67XpIZBKGkOYiyrVbu+
+u9ggE5EWXCABp5DqdgrAIzYafm1vfBfABHSWz363vm8/aKKkCTHRtfJMSdQd9CD/
+EQyV/0vnUZ9/v9qPhNN6XhMoazF9tVkYah6cWVeOkjvqMKG8thTuZbmi5biCTgId
+....(etc.)
+-----END PGP PUBLIC KEY BLOCK-----
+```
+
+More details:
+```hcl
+https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-gpg-key
+```
 
 # iam-multi-users: 
 
