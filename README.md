@@ -40,13 +40,14 @@ More details:
 https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-gpg-key
 ```
 
+# iam-user:
+
+Terraform Moduleo to provision a  IAM user with establish a login profile and associate the user with IAM groups. 
+
+
 # iam-multi-users: 
 
 This Terraform to create Mutiple IAM users, and to set them up with IAM credentials (access key/secret) and login access to the web console. Terraform generate these secrets for us and give us PGP-encrypted output that we can distribute to the user.
 
 AWS has an option to force the user to set his or her own password upon first login to the web console, and we’ll use that. The login profile resource will not interfere with the user changing.
 
-
-# iam-user:
-
-Terraform Moduleo to provision a  IAM user with establish a login profile and associate the user with IAM groups. 
