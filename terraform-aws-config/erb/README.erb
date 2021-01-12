@@ -1,0 +1,98 @@
+<!-- vim: set ft=markdown: -->
+<%
+  # A method to reformat the examples source
+  # code suitable for the public doc version.
+  #
+  # Using sed here. Sorry.
+  #
+  def filter(remote, file_name)
+    %x[sed -E '
+      s!source( +)=.*!source\\1= "#{remote}"!
+      /variable "bucket_name"/ {
+        N
+        N
+        s/{.*}/{}/
+      }
+      ' #{file_name}]
+  end
+
+  remote = %x{git remote -v}.split("\n")[0].split[1]
+-%>
+# terraform-aws-config
+
+<%= %x{ruby erb/toc.rb erb/README.erb} -%>
+
+## Overview
+
+AWS Config catpures point in time snapshots of the environment to allow for point in time review of configuration. Additionally AWS Config can be utilised for automated action using AWS Config rules.
+
+NOTE: Currently only supports AWS owned / managed rules - http://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html
+
+Terraform <%= %x[awk -F '"' '/required_version/ {print $2}' versions.tf].chomp -%> is required for this module.
+
+## Terraform AWS Config - Overview Diagram
+
+![AWSConfig|medium](docs/AWSConfig.png)
+
+## Terraform AWS Config
+
+### Resources docs
+
+Terraform AWS Config automation includes use of the following core Terraform resources:
+
+- [`aws_config_aggregate_authorization`](https://www.terraform.io/docs/providers/aws/r/aws_config_aggregate_authorization.html) - Manages an AWS Config Aggregate Authorization.
+- [`aws_config_configuration_aggregator`](https://www.terraform.io/docs/providers/aws/r/aws_config_configuration_aggregator.html) - Manages an AWS Config Configuration Aggregator.
+- [`aws_config_config_rule`](https://www.terraform.io/docs/providers/aws/r/config_config_rule.html) - Provides an AWS Config Rule.
+- [`aws_config_configuration_recorder_status`](https://www.terraform.io/docs/providers/aws/r/aws_config_configuration_recorder_status.html) - Manages status (recording / stopped) of an AWS Config Configuration Recorder.
+- [`aws_config_configuration_recorder`](https://www.terraform.io/docs/providers/aws/r/config_configuration_recorder.html) - Provides an AWS Config Configuration Recorder.
+- [`aws_config_delivery_channel`](https://www.terraform.io/docs/providers/aws/r/config_delivery_channel.html) - Provides an AWS Config Delivery Channel.
+
+### Inputs
+
+The below outlines the current parameters and defaults.
+
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-------:|:--------:|
+<%= %x{ruby erb/variables2md.rb variables.tf} -%>
+
+### Outputs
+
+|Name|Description|
+|------------|---------------------|
+<%= %x{ruby erb/outputs2md.rb outputs.tf} -%>
+
+### Examples
+
+#### Aggregator Account
+
+A Config account configured as an Aggregator:
+
+```tf
+<%= filter(remote, 'examples/aggregator_account/main.tf') -%>
+```
+
+To apply that:
+
+```text
+▶ export TF_VAR_bucket_name=config-bucket-"$(uuidgen | tr 'A-Z' 'a-z')"  # bucket name must be globally unique
+▶ TF_VAR_aggregator_account_id=xxxxxxxxxxxx TF_VAR_source_account_id=yyyyyyyyyyyy terraform apply
+```
+
+#### Source Account
+
+Then a Config Source that points to its S3 bucket:
+
+```tf
+<%= filter(remote, 'examples/source_account/main.tf') -%>
+```
+
+To apply that:
+
+```text
+# $TF_VAR_bucket_name set from above.
+▶ terraform apply
+```
+
+## License
+
+Apache 2.0.
