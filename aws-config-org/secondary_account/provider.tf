@@ -5,8 +5,8 @@ provider aws {
   profile                 = "test"
 }
 
-#provider aws {
-#  alias  = "secondary-account-2"
-#  region = "ap-southeast-1"
-#  profile                 = "secondary_account"
-#}
+provider aws {
+  alias  = "secondary-account-2"
+  region = "ap-southeast-1"
+  profile                 = "test1"
+}
